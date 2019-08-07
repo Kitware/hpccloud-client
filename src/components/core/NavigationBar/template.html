@@ -1,0 +1,37 @@
+<v-toolbar dense height="30">
+  <v-tooltip bottom>
+    <template v-slot:activator="{ on }">
+      <v-btn icon small to="/projects" v-on="on">
+        <v-icon small>{{ $vuetify.icons.home }}</v-icon>
+      </v-btn>
+    </template>
+    <span>Home</span>
+  </v-tooltip>
+
+  <v-tooltip bottom>
+    <template v-slot:activator="{ on }">
+      <v-btn icon small :to="`/project/view/${projectId}`" v-on="on" v-show="!!projectId">
+        <v-icon small>{{ $vuetify.icons[project.type] || $vuetify.icons.project }}</v-icon>
+      </v-btn>
+    </template>
+    <span>Go to project <i>{{ project.name }}</i> view</span>
+  </v-tooltip>
+
+  <v-tooltip bottom>
+    <template v-slot:activator="{ on }">
+      <v-btn
+        icon
+        small
+        :to="`/simulation/view/${simulationId}`"
+        v-show="!!simulationId"
+        v-on="on"
+      >
+        <v-icon small>{{ $vuetify.icons.simulation }}</v-icon>
+      </v-btn>
+    </template>
+    <span>Go to simulation view</span>
+  </v-tooltip>
+
+  <label class="ml-2">{{ title }}</label>
+  <v-spacer></v-spacer>
+</v-toolbar>

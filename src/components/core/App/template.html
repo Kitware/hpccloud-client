@@ -1,0 +1,67 @@
+<v-app :class="$style.app">
+  <v-toolbar class="toolbar-main" dark dense>
+    <router-link to="/">
+      <img :src="logo" :class="$style.logo" />
+    </router-link>
+    <v-spacer />
+
+    <div v-if="loggedOut">
+      <v-btn dark flat to="/login">
+        Sign In
+      </v-btn>
+      <v-btn dark outline to="/register">
+        Sign Up
+      </v-btn>
+    </div>
+
+    <v-menu offset-y v-if="!loggedOut">
+      <template v-slot:activator="{ on }">
+        <v-btn dark v-on="on" icon>
+          <img :src="avatar" :class="$style.avatar" />
+        </v-btn>
+      </template>
+      <v-list class="py-0 mt-1">
+        <v-list-tile>
+          Signed in as&nbsp;<strong v-html="girderRest.user.login" />
+        </v-list-tile>
+        <v-divider />
+        <v-list-tile @click="$router.push('/profile')">
+          <v-list-tile-content>
+            <v-list-tile-title>
+              Your profile
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="$router.push('/clusters')">
+          <v-list-tile-content>
+            <v-list-tile-title>
+              Your clusters
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="$router.push('/aws')">
+          <v-list-tile-title>
+            Your AWS credentials
+          </v-list-tile-title>
+        </v-list-tile>
+        <v-divider />
+        <v-list-tile @click="logout">
+          <v-list-tile-content>
+            <v-list-tile-title>Sign out</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-menu>
+  </v-toolbar>
+
+  <navigation-bar />
+
+  <v-container fluid v-if="isReady" class="pa-0">
+    <router-view
+      :oauth="oauth"
+      :oauthProviders="oauthProviders"
+      :loggedIn="loggedIn"
+      :loggedOut="loggedOut"
+    />
+  </v-container>
+</v-app>

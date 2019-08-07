@@ -1,18 +1,17 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    Better landing page... You need to be logged in to do something...
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
+import { authRedirect } from 'hpccloud-client/src/utils/RedirectHelper';
 
-export default {
-  name: 'home',
-  components: {
-    HelloWorld,
+export default authRedirect(
+  {
+    name: 'home',
+    inject: ['girderRest'],
   },
-};
+  '/projects'
+);
 </script>

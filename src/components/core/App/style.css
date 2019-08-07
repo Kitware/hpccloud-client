@@ -1,0 +1,14 @@
+.app {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.logo {
+    height: 30px;
+}
+
+.avatar {
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+}
