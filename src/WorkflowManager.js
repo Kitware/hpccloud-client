@@ -1,4 +1,5 @@
 let ICONS = {};
+let SIMPUT_TYPE_LOADER = () => {};
 const LISTENERS = [];
 
 export const AVAILABLE_WORFLOW = {};
@@ -7,10 +8,13 @@ export const LOADED_WORKFLOW = [];
 export function register(metadata) {
   AVAILABLE_WORFLOW[metadata.name] = metadata;
 
-  // // Register icon
+  // Register icon
   Object.assign(ICONS, {
     [metadata.name]: metadata.icon,
   });
+
+  // Load simput type
+  SIMPUT_TYPE_LOADER(metadata.simput.type, metadata.simput.urls);
 
   LISTENERS.forEach((fn) => fn());
 }
@@ -42,7 +46,12 @@ export function setIconsContainer(container) {
   });
 }
 
+export function setSimputTypeLoader(fn) {
+  SIMPUT_TYPE_LOADER = fn;
+}
+
 window.HPCWorkflow = {
   AVAILABLE_WORFLOW,
   register,
+  setSimputTypeLoader,
 };

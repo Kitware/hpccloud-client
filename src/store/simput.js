@@ -1,5 +1,7 @@
 import Vue from 'vue';
 
+import { setSimputTypeLoader } from 'hpccloud-client/src/WorkflowManager';
+
 import ModelManager from 'simput/src/core/ModelManager';
 
 const LOADED_SCRIPTS = [];
@@ -51,7 +53,13 @@ export default {
     },
   },
   actions: {
-    SIMPUT_LOAD_TEMPLATE({ commit, state }, type) {
+    SIMPUT_INITIALIZE({ commit }) {
+      setSimputTypeLoader((type, urls) => {
+        commit('SIMPUT_REGISTER_TEMPLATE', { type, urls });
+      });
+    },
+    SIMPUT_CONFIGURE({ commit, state }, { type, model }) {
+      state.model = model;
       const finishLoad = () => {
         const module = window.Simput.types[type];
 

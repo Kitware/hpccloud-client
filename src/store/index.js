@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import active from 'hpccloud-client/src/store/active';
 import db from 'hpccloud-client/src/store/db';
 import http from 'hpccloud-client/src/store/http';
+import simput from 'hpccloud-client/src/store/simput';
 import workflow from 'hpccloud-client/src/store/workflow';
 
 Vue.use(Vuex);
@@ -17,6 +18,7 @@ function createStore() {
       active,
       db,
       http,
+      simput,
       workflow,
     },
     getters: {
@@ -50,6 +52,7 @@ function createStore() {
 
         // Load user projects
         if (user) {
+          dispatch('SIMPUT_INITIALIZE');
           const { data } = await dispatch('HTTP_PROJECTS_FETCH');
           dispatch('DB_UPDATE_PROJECTS', data);
           for (let i = 0; i < data.length; i++) {
