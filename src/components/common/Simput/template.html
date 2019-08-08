@@ -1,4 +1,17 @@
-<v-layout :class="$style.container">
-  <workflow-menu :class="$style.menu"/>
-  <workflow-content/>
+<v-layout column>
+  <v-layout :class="$style.container">
+    <workflow-menu :class="$style.menu"/>
+    <workflow-content :class="$style.content" />
+  </v-layout>
+  <v-layout>
+    <v-btn
+      color="primary"
+      @click="save"
+    >Save</v-btn>
+    <v-btn
+      outline
+      @click="cancel"
+    >Cancel</v-btn>
+    <v-spacer />
+  </v-layout>
 </v-layout>

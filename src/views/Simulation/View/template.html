@@ -22,19 +22,12 @@
         {{ workflow.labels[step].default }}
       </v-stepper-step>
 
-      <v-stepper-content
-        :step="idx + 1"
-      >
+      <v-stepper-content :step="idx + 1">
         <component
-          :is="workflow.steps[step].default"
+          :is="getComponent(step)"
           :metadata="simulation.steps[step].metadata"
+          :simulation="simulation"
         />
-
-        <v-btn color="primary" @click="nextStep(idx + 2)">
-          Continue
-        </v-btn>
-
-        <v-btn flat>Cancel</v-btn>
       </v-stepper-content>
     </div>
   </v-stepper>

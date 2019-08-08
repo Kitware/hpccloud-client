@@ -5,6 +5,7 @@ import active from 'hpccloud-client/src/store/active';
 import db from 'hpccloud-client/src/store/db';
 import http from 'hpccloud-client/src/store/http';
 import simput from 'hpccloud-client/src/store/simput';
+import simulation from 'hpccloud-client/src/store/simulation';
 import workflow from 'hpccloud-client/src/store/workflow';
 
 Vue.use(Vuex);
@@ -19,6 +20,7 @@ function createStore() {
       db,
       http,
       simput,
+      simulation,
       workflow,
     },
     getters: {

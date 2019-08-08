@@ -14,6 +14,7 @@ export default anonymousRedirect(
         getWorkflow: 'WF_GET',
       }),
       simulation() {
+        console.log('simulation change');
         this.mtimeSimulation;
         return this.simulationById(this.$route.params.id);
       },
@@ -26,6 +27,12 @@ export default anonymousRedirect(
       },
       workflow() {
         return this.getWorkflow(this.project.type);
+      },
+      getComponent() {
+        return (step) =>
+          this.workflow.steps[step] &&
+          (this.workflow.steps[step][this.$route.params.view] ||
+            this.workflow.steps[step].default);
       },
     },
     methods: {

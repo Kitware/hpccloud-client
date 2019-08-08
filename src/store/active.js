@@ -55,12 +55,8 @@ export default {
             break;
           case 'simulation':
             {
-              const { data } = await dispatch(
-                'HTTP_SIMULATION_FETCH_BY_ID',
-                id
-              );
-              dispatch('DB_UPDATE_SIMULATION', data);
-              Vue.set(state.lastIds, 'project', data.projectId);
+              const sim = await dispatch('SIMULATION_FETCH', id);
+              Vue.set(state.lastIds, 'project', sim.projectId);
             }
             break;
         }

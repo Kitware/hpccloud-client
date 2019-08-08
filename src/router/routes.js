@@ -20,7 +20,7 @@ export default [
     component: ProjectView,
   },
   {
-    path: '/simulation/view/:id',
+    path: '/simulation/view/:id/:view?',
     name: 'simulationView',
     component: SimulationView,
   },
