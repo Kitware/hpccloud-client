@@ -1,0 +1,13 @@
+.container {
+  border: solid 1px #ccc;
+}
+
+.menu {
+  position: relative;
+  width: 300px;
+  border-right: solid 1px #ccc;
+}
+
+.content {
+  position: relative;
+}

@@ -1,11 +1,11 @@
-// import WorkflowContent from 'simput/src/components/core/WorkflowContent';
-// import WorkflowMenu from 'simput/src/components/core/WorkflowMenu';
+import WorkflowContent from 'simput/src/components/core/WorkflowContent';
+import WorkflowMenu from 'simput/src/components/core/WorkflowMenu';
 
 export default {
   name: 'hpcSimput',
   components: {
-    // WorkflowContent,
-    // WorkflowMenu,
+    WorkflowContent,
+    WorkflowMenu,
   },
   props: {
     type: {
@@ -14,12 +14,7 @@ export default {
     },
     model: {
       type: Object,
-      default() {
-        return {
-          type: 'pyfr',
-          data: {},
-        };
-      },
+      default: null,
     },
   },
   mounted() {

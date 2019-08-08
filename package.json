@@ -16,7 +16,7 @@
     "@mdi/font": "3.8.95",
     "core-js": "^2.6.5",
     "md5": "2.2.1",
-    "simput": "3.3.0",
+    "simput": "3.4.0",
     "typeface-roboto": "0.0.75",
     "vue": "2.6.10",
     "vue-router": "3.0.7",

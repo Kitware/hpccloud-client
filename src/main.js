@@ -7,7 +7,7 @@ import GirderProvider from 'hpccloud-client/src/plugins/girder';
 
 // Vue components
 import router from 'hpccloud-client/src/router';
-import store from 'hpccloud-client/src/store';
+import storeFactory from 'hpccloud-client/src/store';
 
 // Entry point
 import App from 'hpccloud-client/src/components/core/App';
@@ -15,7 +15,16 @@ import App from 'hpccloud-client/src/components/core/App';
 // Allow dynamic workflow handling
 import 'hpccloud-client/src/WorkflowManager';
 
+// Simput
+import registerDefaultProperties from 'simput/src/components/properties/registerDefaults';
+
 Vue.config.productionTip = false;
+
+// Simput initialization
+const store = storeFactory();
+registerDefaultProperties((name, component) => {
+  store.commit('SIMPUT_ADD_PROPERTY_MAPPING', { name, component });
+});
 
 new Vue({
   provide: GirderProvider,

@@ -49,6 +49,7 @@ export default {
       state.loaded[type] = status;
     },
     SIMPUT_REGISTER_TEMPLATE(state, { type, urls }) {
+      console.log('register urls for', type);
       state.types[type] = { urls };
     },
   },
@@ -74,11 +75,13 @@ export default {
 
       if (!state.loaded[type] && state.types[type] && state.types[type].urls) {
         commit('SIMPUT_TYPE_STATUS_SET', { type, status: 'pending' });
+        console.log('loading', state.types[type].urls);
         Promise.all(state.types[type].urls.map(loadScript)).then(() => {
           commit('SIMPUT_TYPE_STATUS_SET', { type, status: 'loaded' });
           finishLoad();
         });
       } else if (state.loaded[type] === 'loaded') {
+        console.log('already loaded');
         finishLoad();
       }
     },

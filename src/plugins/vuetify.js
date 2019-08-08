@@ -26,6 +26,24 @@ Object.assign(girderVuetifyConfig.icons, {
   simulation: 'mdi-file-document-outline',
 });
 
+// Simput icons
+Object.assign(girderVuetifyConfig.icons, {
+  simput: {
+    add: 'mdi-plus',
+    warning: 'mdi-alert-outline',
+    contentCopy: 'mdi-content-copy',
+    delete: 'mdi-delete-outline',
+    folder_open: 'mdi-folder-outline',
+    close: 'mdi-close',
+    error: 'mdi-bug',
+    folder: 'mdi-folder',
+    download: 'mdi-cloud-download',
+    publish: 'mdi-publish',
+    ok: 'mdi-check-circle-outline',
+    check: 'mdi-check',
+  },
+});
+
 // worflow types
 Object.assign(girderVuetifyConfig.icons, {
   Visualizer: 'mdi-cube-outline',
