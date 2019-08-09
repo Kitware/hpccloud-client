@@ -1,0 +1,17 @@
+<v-container fluid>
+  <v-layout row wrap>
+    <v-flex xs12>
+      <v-select
+        :items="types"
+        v-model="type"
+        label="Scheduler"
+      />
+    </v-flex>
+    <v-flex xs12>
+      <component
+        :is="schedulerComponent"
+        :onChange="onChange"
+      />
+    </v-flex>
+  </v-layout>
+</v-container>

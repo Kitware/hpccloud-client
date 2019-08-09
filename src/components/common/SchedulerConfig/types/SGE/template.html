@@ -1,0 +1,28 @@
+<v-layout row wrap align-center>
+  <v-flex xs2 d-flex>
+    <div class="body-2 py-4">Number of Slots</div>
+  </v-flex>
+  <v-flex xs10>
+    <v-slider
+      class="mx-2"
+      v-model="numberOfSlots"
+      :min="1"
+      :max="32"
+      thumb-label="always"
+      hide-details
+    />
+  </v-flex>
+  <v-flex xs2 d-flex>
+    <div class="body-2 py-4">GPU per Node</div>
+  </v-flex>
+  <v-flex xs10>
+    <v-slider
+      class="mx-2"
+      v-model="numberOfGpusPerNode"
+      :min="0"
+      :max="10"
+      thumb-label="always"
+      hide-details
+    />
+  </v-flex>
+</v-layout>
