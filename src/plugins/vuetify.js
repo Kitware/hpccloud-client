@@ -44,6 +44,13 @@ Object.assign(girderVuetifyConfig.icons, {
   },
 });
 
+// HPCCloud icons
+Object.assign(girderVuetifyConfig.icons, {
+  hpccloud: {
+    editStep: 'mdi-circle-edit-outline',
+  },
+});
+
 // worflow types
 Object.assign(girderVuetifyConfig.icons, {
   Visualizer: 'mdi-cube-outline',

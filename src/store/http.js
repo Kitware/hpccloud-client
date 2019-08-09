@@ -28,6 +28,9 @@ export default {
     async HTTP_SIMULATION_FETCH_BY_ID({ state }, id) {
       return await state.girderClient.get(`simulations/${id}`);
     },
+    async HTTP_SIMULATION_PATCH({ state }, { id, content }) {
+      return await state.girderClient.patch(`simulations/${id}`, content);
+    },
     async HTTP_SIMULATION_PATCH_STEP({ state }, { id, step, content }) {
       return await state.girderClient.patch(
         `simulations/${id}/steps/${step}`,

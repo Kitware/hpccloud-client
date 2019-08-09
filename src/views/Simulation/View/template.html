@@ -1,34 +1,8 @@
 <div>
-<!--   <v-card class="mb-5" color="grey lighten-1">
-    <pre>{{ JSON.stringify(simulation, null, 2) }}</pre>
-  </v-card>
- -->
- <v-stepper
-    v-if="workflow"
-    v-model="workflow.steps._order.length"
-    vertical
-    class="mt-2"
-    style="box-shadow: none;"
-  >
-    <div
-      v-for="(step, idx) in workflow.steps._order"
-      :key="`${idx + 1}-step`"
-    >
-      <v-stepper-step
-        :complete="activeStepIdx > idx"
-        :step="idx + 1"
-        editable
-      >
-        {{ workflow.labels[step].default }}
-      </v-stepper-step>
-
-      <v-stepper-content :step="idx + 1">
-        <component
-          :is="getComponent(step)"
-          :metadata="simulation.steps[step].metadata"
-          :simulation="simulation"
-        />
-      </v-stepper-content>
-    </div>
-  </v-stepper>
+  <component
+    :is="component"
+    :metadata="metadata"
+    :simulation="simulation"
+  />
+  <!-- <pre>{{ JSON.stringify(simulation, null, 2) }}</pre> -->
 </div>

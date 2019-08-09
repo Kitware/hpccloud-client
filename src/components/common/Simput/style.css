@@ -1,5 +1,11 @@
+.fillHeight {
+    height: calc(100vh - 48px - 30px - 48px);
+    max-height: calc(100vh - 48px - 30px - 48px - 48px);
+}
+
 .container {
-  border: solid 1px #ccc;
+  composes: fillHeight;
+  overflow: hidden;
 }
 
 .menu {
@@ -9,5 +15,8 @@
 }
 
 .content {
+
   position: relative;
+  overflow: auto;
+  composes: fillHeight;
 }

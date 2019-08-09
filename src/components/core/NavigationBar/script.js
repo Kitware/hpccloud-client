@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'NavigationBar',
@@ -6,17 +6,29 @@ export default {
     ...mapGetters({
       projectId: 'ACTIVE_PROJECT_ID',
       simulationId: 'ACTIVE_SIMULATION_ID',
-      projectById: 'DB_PROJECT_BY_ID',
-      simulationById: 'DB_SIMULATION_BY_ID',
+      project: 'ACTIVE_PROJECT',
+      simulation: 'ACTIVE_SIMULATION',
+      workflow: 'ACTIVE_WORKFLOW',
+      steps: 'ACTIVE_SIMULATION_STEPS',
+      stepIdx: 'ACTIVE_SIMULATION_STEP_IDX',
     }),
-    project() {
-      return this.projectById(this.projectId) || {};
-    },
-    simulation() {
-      return this.simulationById(this.simulationId) || {};
-    },
     title() {
       return this.simulation.name || this.project.name || null;
     },
+    activeIndex: {
+      get() {
+        return this.stepIdx + 1;
+      },
+      set(v) {
+        const { _id: id } = this.simulation;
+        const active = this.steps[v - 1];
+        this.updateActiveStep({ id, active });
+      },
+    },
+  },
+  methods: {
+    ...mapActions({
+      updateActiveStep: 'SIMULATION_UPDATE_ACTIVE_STEP',
+    }),
   },
 };

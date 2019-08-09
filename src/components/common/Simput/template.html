@@ -1,9 +1,12 @@
-<v-layout column>
-  <v-layout :class="$style.container">
+<v-layout column fill-height>
+  <v-layout
+    :class="$style.container"
+    class="ma-3 elevation-4"
+  >
     <workflow-menu :class="$style.menu"/>
     <workflow-content :class="$style.content" />
   </v-layout>
-  <v-layout>
+  <v-layout class="ml-2">
     <v-btn
       color="primary"
       @click="save"
@@ -12,6 +15,7 @@
       outline
       @click="cancel"
     >Cancel</v-btn>
+    <hpc-next-step v-show="mtime === saveMTime"/>
     <v-spacer />
   </v-layout>
 </v-layout>

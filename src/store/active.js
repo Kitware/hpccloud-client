@@ -16,6 +16,38 @@ export default {
     ACTIVE_SIMULATION_ID(state) {
       return state.lastIds.simulation;
     },
+    // Helpers ----------------------------------------------------------------
+    ACTIVE_PROJECT(state, getters) {
+      return getters.DB_PROJECT_BY_ID(getters.ACTIVE_PROJECT_ID) || {};
+    },
+    ACTIVE_SIMULATION(state, getters) {
+      return getters.DB_SIMULATION_BY_ID(getters.ACTIVE_SIMULATION_ID) || {};
+    },
+    ACTIVE_WORKFLOW(state, getters) {
+      const { type } = getters.ACTIVE_PROJECT;
+      const { name } = getters.ACTIVE_SIMULATION;
+      if (type && name) {
+        return getters.WF_GET(type);
+      }
+      return null;
+    },
+    ACTIVE_SIMULATION_STEP(state, getters) {
+      const simulation = getters.ACTIVE_SIMULATION;
+      return (simulation && simulation.active) || 'Introduction';
+    },
+    ACTIVE_SIMULATION_STEP_IDX(state, getters) {
+      const workflow = getters.ACTIVE_WORKFLOW;
+      const { active } = getters.ACTIVE_SIMULATION;
+      if (workflow && active) {
+        return workflow.steps._order.indexOf(active);
+      }
+
+      return 0;
+    },
+    ACTIVE_SIMULATION_STEPS(state, getters) {
+      const workflow = getters.ACTIVE_WORKFLOW;
+      return (workflow && workflow.steps._order) || [];
+    },
   },
   mutations: {
     ACTIVE_USER_SET(state, value) {

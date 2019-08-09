@@ -1,0 +1,6 @@
+.steps {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    box-shadow: none;
+}

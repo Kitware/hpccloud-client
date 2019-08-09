@@ -33,5 +33,22 @@
   </v-tooltip>
 
   <label class="ml-2">{{ title }}</label>
-  <v-spacer></v-spacer>
+
+  <v-spacer/>
+
+  <v-stepper
+    v-if="steps.length"
+    v-model="activeIndex"
+    :class="$style.steps"
+  >
+    <v-stepper-step
+      v-for="(step, idx) in steps"
+      :key="`${idx + 1}-step`"
+      :step="idx + 1"
+      :edit-icon="$vuetify.icons.hpccloud.editStep"
+      :editable="idx + 1 < activeIndex"
+    >{{ step }}</v-stepper-step>
+  </v-stepper>
+
+  <v-spacer/>
 </v-toolbar>

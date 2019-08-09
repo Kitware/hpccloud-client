@@ -20,9 +20,11 @@ export default {
       return state.projects;
     },
     DB_PROJECT_BY_ID(state) {
+      state.projectMTime;
       return (id) => state.projectsMap[id];
     },
     DB_SIMULATION_BY_ID(state) {
+      state.simulationMTime;
       return (id) => state.simulationsMap[id];
     },
     DB_SIMULATIONS_BY_PROJECT_ID(state) {
