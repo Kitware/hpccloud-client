@@ -12,10 +12,11 @@
   position: relative;
   width: 300px;
   border-right: solid 1px #ccc;
+  background: white;
 }
 
 .content {
-
+  background: white;
   position: relative;
   overflow: auto;
   composes: fillHeight;

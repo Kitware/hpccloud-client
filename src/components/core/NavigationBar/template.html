@@ -47,6 +47,7 @@
       :step="idx + 1"
       :edit-icon="$vuetify.icons.hpccloud.editStep"
       :editable="idx + 1 < activeIndex"
+      :class="$style.step"
     >{{ step }}</v-stepper-step>
   </v-stepper>
 

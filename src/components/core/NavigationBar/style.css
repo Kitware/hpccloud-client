@@ -3,4 +3,9 @@
     height: 100%;
     align-items: center;
     box-shadow: none;
+    background: none;
+}
+
+.step {
+    background: none;
 }
