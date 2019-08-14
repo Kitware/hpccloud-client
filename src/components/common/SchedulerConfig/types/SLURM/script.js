@@ -15,13 +15,21 @@ export default {
       numberOfNodes: 1,
     };
   },
+  mounted() {
+    this.pushState();
+  },
   updated() {
-    if (this.onChange) {
-      const slurm = {};
-      KEYS.forEach((key) => {
-        slurm[key] = Number(this[key]);
-      });
-      this.onChange('slurm', slurm);
-    }
+    this.pushState();
+  },
+  methods: {
+    pushState() {
+      if (this.onChange) {
+        const slurm = {};
+        KEYS.forEach((key) => {
+          slurm[key] = Number(this[key]);
+        });
+        this.onChange('slurm', slurm);
+      }
+    },
   },
 };

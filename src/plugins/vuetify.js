@@ -17,8 +17,6 @@ Object.assign(girderVuetifyConfig.theme, {
   info: colors.grey.lighten1,
 });
 
-Vue.use(Vuetify, girderVuetifyConfig);
-
 // Application icons
 Object.assign(girderVuetifyConfig.icons, {
   home: 'mdi-home',
@@ -55,3 +53,6 @@ Object.assign(girderVuetifyConfig.icons, {
 Object.assign(girderVuetifyConfig.icons, {
   Visualizer: 'mdi-cube-outline',
 });
+
+// Bind plugin
+Vue.use(Vuetify, girderVuetifyConfig);

@@ -15,13 +15,21 @@ export default {
       numberOfNodes: 1,
     };
   },
+  mounted() {
+    this.pushState();
+  },
   updated() {
-    if (this.onChange) {
-      const pbs = {};
-      KEYS.forEach((key) => {
-        pbs[key] = Number(this[key]);
-      });
-      this.onChange('pbs', pbs);
-    }
+    this.pushState();
+  },
+  methods: {
+    pushState() {
+      if (this.onChange) {
+        const pbs = {};
+        KEYS.forEach((key) => {
+          pbs[key] = Number(this[key]);
+        });
+        this.onChange('pbs', pbs);
+      }
+    },
   },
 };

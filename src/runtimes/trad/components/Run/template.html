@@ -1,0 +1,23 @@
+<v-container fluid>
+  <v-layout column>
+    <v-select
+      label="Traditional cluster"
+      :items="filteredProfiles"
+      v-model="selectedProfile"
+    />
+    <hpc-scheduler-config
+      v-show="!!selectedProfile"
+      :scheduler="activeScheduler"
+      @change="updateScheduler"
+    />
+    <v-layout
+      v-show="!!selectedProfile"
+    >
+      <v-spacer />
+      <v-btn
+        color="primary"
+        @click="submit"
+      >Submit</v-btn>
+    </v-layout>
+  </v-layout>
+</v-container>

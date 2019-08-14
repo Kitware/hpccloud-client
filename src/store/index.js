@@ -8,6 +8,10 @@ import simput from 'hpccloud-client/src/store/simput';
 import simulation from 'hpccloud-client/src/store/simulation';
 import workflow from 'hpccloud-client/src/store/workflow';
 
+// runtimes
+import runtimeTrad from 'hpccloud-client/src/components/runtimes/traditional/store.js';
+
+// Install VueX
 Vue.use(Vuex);
 
 function createStore() {
@@ -19,6 +23,7 @@ function createStore() {
       active,
       db,
       http,
+      runtimeTrad,
       simput,
       simulation,
       workflow,

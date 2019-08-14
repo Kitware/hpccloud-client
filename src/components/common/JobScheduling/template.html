@@ -1,0 +1,25 @@
+<v-layout column>
+  <v-tabs v-model="runtime" fixed-tabs color="transparent">
+    <v-tab
+      v-for="(value, name) in runtimes"
+      :key="name"
+      class="primary--text"
+    >
+      <v-icon>{{ value.icon }}</v-icon>
+    </v-tab>
+  </v-tabs>
+  <v-tabs-items v-model="runtime" class="white elevation-1">
+    <v-tab-item
+      v-for="(value, name) in runtimes"
+      :key="name"
+    >
+      <v-card>
+        <component
+          :is="value.component"
+          :clusterFilter="clusterFilter"
+          :getPayload="getPayload"
+        />
+      </v-card>
+    </v-tab-item>
+  </v-tabs-items>
+</v-layout>

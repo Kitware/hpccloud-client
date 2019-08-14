@@ -1,17 +1,38 @@
-<v-container fluid>
-  <v-layout row wrap>
-    <v-flex xs12>
-      <v-select
-        :items="types"
-        v-model="type"
-        label="Scheduler"
-      />
-    </v-flex>
-    <v-flex xs12>
-      <component
-        :is="schedulerComponent"
-        :onChange="onChange"
-      />
-    </v-flex>
-  </v-layout>
-</v-container>
+<v-layout row wrap>
+  <v-flex xs12 v-show="!scheduler">
+    <v-select :items="items" v-model="type" label="Scheduler" />
+  </v-flex>
+  <v-flex xs12>
+    <component :is="schedulerComponent" :onChange="onChange" />
+  </v-flex>
+  <v-flex xs12>
+    <v-text-field v-model="parallelEnvironment" label="Parallel Environment" />
+  </v-flex>
+  <v-flex xs4>
+    <v-text-field
+      type="number"
+      min="0"
+      v-model="maxWallTime.hours"
+      label="Max runtime (hours)"
+    />
+  </v-flex>
+  <v-flex xs4 class="px-4">
+    <v-text-field
+      type="number"
+      min="0"
+      v-model="maxWallTime.minutes"
+      label="Max runtime (minutes)"
+    />
+  </v-flex>
+  <v-flex xs4>
+    <v-text-field
+      type="number"
+      min="0"
+      v-model="maxWallTime.seconds"
+      label="Max runtime (seconds)"
+    />
+  </v-flex>
+  <v-flex xs12>
+    <v-text-field v-model="queue" label="Queue" />
+  </v-flex>
+</v-layout>

@@ -15,7 +15,9 @@
       outline
       @click="cancel"
     >Cancel</v-btn>
-    <hpc-next-step v-show="mtime === saveMTime"/>
+    <hpc-next-step-button
+      v-show="mtime === saveMTime"
+    />
     <v-spacer />
   </v-layout>
 </v-layout>

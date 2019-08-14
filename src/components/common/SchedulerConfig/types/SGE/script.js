@@ -14,13 +14,21 @@ export default {
       numberOfSlots: 1,
     };
   },
+  mounted() {
+    this.pushState();
+  },
   updated() {
-    if (this.onChange) {
-      const sge = {};
-      KEYS.forEach((key) => {
-        sge[key] = Number(this[key]);
-      });
-      this.onChange('sge', sge);
-    }
+    this.pushState();
+  },
+  methods: {
+    pushState() {
+      if (this.onChange) {
+        const sge = {};
+        KEYS.forEach((key) => {
+          sge[key] = Number(this[key]);
+        });
+        this.onChange('sge', sge);
+      }
+    },
   },
 };

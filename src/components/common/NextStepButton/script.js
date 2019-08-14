@@ -1,7 +1,7 @@
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
-  name: 'hpcNextStep',
+  name: 'hpcNextStepButton',
   computed: {
     ...mapGetters({
       project: 'ACTIVE_PROJECT',
