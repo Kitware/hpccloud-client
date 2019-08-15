@@ -49,10 +49,5 @@ Object.assign(girderVuetifyConfig.icons, {
   },
 });
 
-// worflow types
-Object.assign(girderVuetifyConfig.icons, {
-  Visualizer: 'mdi-cube-outline',
-});
-
 // Bind plugin
 Vue.use(Vuetify, girderVuetifyConfig);

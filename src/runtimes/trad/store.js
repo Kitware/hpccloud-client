@@ -13,8 +13,8 @@ export default {
     },
   },
   actions: {
-    async TRADITIONAL_FETCH_CLUSTERS({ getters, commit }) {
-      const { data } = await getters.HTTP_CLIENT.get('clusters?type=trad');
+    async TRADITIONAL_FETCH_CLUSTERS({ dispatch, commit }) {
+      const { data } = await dispatch('HTTP_CLUSTERS_LIST', 'trad');
       commit('TRADITIONAL_CLUSTERS_SET', data);
     },
   },

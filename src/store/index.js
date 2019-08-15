@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import active from 'hpccloud-client/src/store/active';
+import cumulus from 'hpccloud-client/src/store/cumulus';
 import db from 'hpccloud-client/src/store/db';
 import http from 'hpccloud-client/src/store/http';
 import simput from 'hpccloud-client/src/store/simput';
@@ -9,7 +10,7 @@ import simulation from 'hpccloud-client/src/store/simulation';
 import workflow from 'hpccloud-client/src/store/workflow';
 
 // runtimes
-import runtimeTrad from 'hpccloud-client/src/components/runtimes/traditional/store.js';
+import runtimeTrad from 'hpccloud-client/src/runtimes/trad/store.js';
 
 // Install VueX
 Vue.use(Vuex);
@@ -21,6 +22,7 @@ function createStore() {
     },
     modules: {
       active,
+      cumulus,
       db,
       http,
       runtimeTrad,
@@ -60,7 +62,7 @@ function createStore() {
         // Load user projects
         if (user) {
           dispatch('SIMPUT_INITIALIZE');
-          const { data } = await dispatch('HTTP_PROJECTS_FETCH');
+          const { data } = await dispatch('HTTP_PROJECTS_LIST');
           dispatch('DB_UPDATE_PROJECTS', data);
           for (let i = 0; i < data.length; i++) {
             dispatch('WF_LOAD', data[i].type);

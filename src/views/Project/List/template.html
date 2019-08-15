@@ -7,7 +7,6 @@
   <template v-slot:items="props">
     <td :data-id="props.item.id" @click="view" style="cursor: pointer;">
       <v-icon small>{{ $vuetify.icons[props.item.type] }}</v-icon>
-      {{ $vuetify.icons[props.item.type] }}
       {{ props.item.name }}
     </td>
     <td class="text-xs-center">

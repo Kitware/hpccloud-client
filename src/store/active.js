@@ -79,7 +79,7 @@ export default {
           case 'project':
             {
               const { data } = await dispatch(
-                'HTTP_PROJECT_SIMULATIONS_FETCH',
+                'HTTP_PROJECTS_GET_SIMULATION_LIST',
                 id
               );
               dispatch('DB_UPDATE_SIMULATIONS', data);

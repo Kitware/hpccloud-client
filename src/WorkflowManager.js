@@ -6,6 +6,7 @@ export const AVAILABLE_WORFLOW = {};
 export const LOADED_WORKFLOW = [];
 
 export function register(metadata) {
+  console.log('load wf', metadata.name);
   AVAILABLE_WORFLOW[metadata.name] = metadata;
 
   // Register icon
@@ -14,7 +15,9 @@ export function register(metadata) {
   });
 
   // Load simput type
-  SIMPUT_TYPE_LOADER(metadata.simput.type, metadata.simput.urls);
+  if (metadata.simput) {
+    SIMPUT_TYPE_LOADER(metadata.simput.type, metadata.simput.urls);
+  }
 
   LISTENERS.forEach((fn) => fn());
 }
