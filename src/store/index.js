@@ -2,11 +2,10 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import active from 'hpccloud-client/src/store/active';
-import cumulus from 'hpccloud-client/src/store/cumulus';
-import db from 'hpccloud-client/src/store/db';
 import http from 'hpccloud-client/src/store/http';
 import simput from 'hpccloud-client/src/store/simput';
 import simulation from 'hpccloud-client/src/store/simulation';
+import taskflow from 'hpccloud-client/src/store/taskflow';
 import workflow from 'hpccloud-client/src/store/workflow';
 
 // runtimes
@@ -22,12 +21,11 @@ function createStore() {
     },
     modules: {
       active,
-      cumulus,
-      db,
       http,
       runtimeTrad,
       simput,
       simulation,
+      taskflow,
       workflow,
     },
     getters: {
@@ -38,7 +36,7 @@ function createStore() {
     actions: {
       LOGOUT({ dispatch }) {
         dispatch('HTTP_LOGOUT');
-        dispatch('DB_UPDATE_PROJECTS', []);
+        dispatch('PROJECTS_CLEAR');
       },
       async GIRDER_INITIALIZE({ commit, dispatch, state }, girderClient) {
         commit('HTTP_CLIENT_SET', girderClient);
@@ -56,14 +54,14 @@ function createStore() {
         state.ready = true;
       },
       async UPDATE_USER({ commit, dispatch }, user) {
-        dispatch('DB_RESET');
+        dispatch('PROJECTS_CLEAR');
         commit('ACTIVE_USER_SET', user);
 
         // Load user projects
         if (user) {
           dispatch('SIMPUT_INITIALIZE');
           const { data } = await dispatch('HTTP_PROJECTS_LIST');
-          dispatch('DB_UPDATE_PROJECTS', data);
+          commit('PROJECTS_SET', data);
           for (let i = 0; i < data.length; i++) {
             dispatch('WF_LOAD', data[i].type);
           }

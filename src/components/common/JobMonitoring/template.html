@@ -1,0 +1,61 @@
+<v-container fluid>
+  <v-layout column>
+    <v-card>
+      <v-toolbar color="grey lighten-2" dense>
+        <v-toolbar-title>Jobs</v-toolbar-title>
+        <v-spacer />
+        <hpc-status-summary :summary="statusSummary" />
+      </v-toolbar>
+      <v-list dense>
+        <template v-for="(job, index) in jobs">
+          <v-divider
+            v-if="index > 0"
+            :key="index"
+          />
+
+          <v-list-tile
+            :key="job.name"
+          >
+            <v-list-tile-avatar>
+              <v-icon>
+                {{ $vuetify.icons.status[job.status] }}
+              </v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title v-html="job.name" />
+            </v-list-tile-content>
+
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-card>
+
+    <v-card>
+      <v-toolbar color="grey lighten-2" dense>
+        <v-toolbar-title>Workflow tasks</v-toolbar-title>
+      </v-toolbar>
+      <v-list dense>
+        <template v-for="(task, index) in tasks">
+          <v-divider
+            v-if="index > 0"
+            :key="index"
+          />
+
+          <v-list-tile
+            :key="task.name"
+          >
+            <v-list-tile-avatar>
+              <v-icon>
+                {{ $vuetify.icons.status[task.status] }}
+              </v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title v-html="task.name" />
+            </v-list-tile-content>
+
+          </v-list-tile>
+        </template>
+      </v-list>
+    </v-card>
+  </v-layout>
+</v-container>

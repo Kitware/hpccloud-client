@@ -20,7 +20,7 @@ export default anonymousRedirect(
     name: 'projects',
     computed: {
       ...mapGetters({
-        projects: 'DB_PROJECTS',
+        projects: 'PROJECTS',
         wfCount: 'WF_COUNT',
       }),
       items() {

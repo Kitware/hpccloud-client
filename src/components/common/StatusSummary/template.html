@@ -1,0 +1,24 @@
+<div style="position: relative; top: 5px;">
+  <v-tooltip
+    bottom
+    v-for="(key) in order"
+    :key="key"
+    v-if="summary[key]"
+  >
+    <template v-slot:activator="{ on }">
+      <v-badge
+        overlap
+        class="mx-2"
+
+      >
+        <template v-slot:badge>
+          <span>{{ summary[key] }}</span>
+        </template>
+        <v-icon class="pr-1" v-on="on">
+          {{ $vuetify.icons.status[key] }}
+        </v-icon>
+      </v-badge>
+    </template>
+    <span>{{ key }}</span>
+  </v-tooltip>
+</div>

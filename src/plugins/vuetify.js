@@ -49,5 +49,18 @@ Object.assign(girderVuetifyConfig.icons, {
   },
 });
 
+// HPCCloud status icons
+Object.assign(girderVuetifyConfig.icons, {
+  status: {
+    created: 'mdi-database-plus',
+    pending: 'mdi-database-settings',
+    running: 'mdi-database-refresh',
+    completed: 'mdi-database-check',
+    complete: 'mdi-database-check',
+    terminating: 'mdi-database-export',
+    terminated: 'mdi-database-remove',
+  },
+});
+
 // Bind plugin
 Vue.use(Vuetify, girderVuetifyConfig);

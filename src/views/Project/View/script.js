@@ -20,8 +20,8 @@ export default anonymousRedirect(
     computed: {
       ...mapGetters({
         projectId: 'ACTIVE_PROJECT_ID',
-        projectById: 'DB_PROJECT_BY_ID',
-        simulationsByProjectId: 'DB_SIMULATIONS_BY_PROJECT_ID',
+        projectById: 'PROJECT_BY_ID',
+        simulationsByProjectId: 'SIMULATIONS_BY_PROJECT_ID',
         wfGetter: 'WF_GET',
       }),
       project() {

@@ -18,10 +18,10 @@ export default {
     },
     // Helpers ----------------------------------------------------------------
     ACTIVE_PROJECT(state, getters) {
-      return getters.DB_PROJECT_BY_ID(getters.ACTIVE_PROJECT_ID) || {};
+      return getters.PROJECT_BY_ID(getters.ACTIVE_PROJECT_ID) || {};
     },
     ACTIVE_SIMULATION(state, getters) {
-      return getters.DB_SIMULATION_BY_ID(getters.ACTIVE_SIMULATION_ID) || {};
+      return getters.SIMULATION_BY_ID(getters.ACTIVE_SIMULATION_ID) || {};
     },
     ACTIVE_WORKFLOW(state, getters) {
       const { type } = getters.ACTIVE_PROJECT;
@@ -55,7 +55,7 @@ export default {
     },
   },
   actions: {
-    async ACTIVE_PROCESS_ROUTE({ state, dispatch }, route) {
+    async ACTIVE_PROCESS_ROUTE({ state, commit, dispatch }, route) {
       const { path, params } = route;
       const [, objectType, viewType, id] = path.split('/');
       state.viewType = viewType;
@@ -82,7 +82,7 @@ export default {
                 'HTTP_PROJECTS_GET_SIMULATION_LIST',
                 id
               );
-              dispatch('DB_UPDATE_SIMULATIONS', data);
+              commit('PROJECT_SET_SIMULATIONS', data);
             }
             break;
           case 'simulation':

@@ -1,4 +1,4 @@
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 import { anonymousRedirect } from 'hpccloud-client/src/utils/RedirectHelper';
 import NoContent from 'hpccloud-client/src/components/common/NoContent';
@@ -6,6 +6,11 @@ import NoContent from 'hpccloud-client/src/components/common/NoContent';
 export default anonymousRedirect(
   {
     name: 'simulation.view',
+    watch: {
+      ...mapActions({
+        simulation: 'SIMULATION_TASKFLOWS_FETCH',
+      }),
+    },
     computed: {
       ...mapGetters({
         simulation: 'ACTIVE_SIMULATION',
