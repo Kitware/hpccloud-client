@@ -46,12 +46,14 @@ Object.assign(girderVuetifyConfig.icons, {
 Object.assign(girderVuetifyConfig.icons, {
   hpccloud: {
     editStep: 'mdi-circle-edit-outline',
+    log: 'mdi-timeline-text-outline',
   },
 });
 
 // HPCCloud status icons
 Object.assign(girderVuetifyConfig.icons, {
   status: {
+    queued: 'mdi-database-settings',
     created: 'mdi-database-plus',
     pending: 'mdi-database-settings',
     running: 'mdi-database-refresh',

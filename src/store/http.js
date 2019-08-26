@@ -10,7 +10,9 @@ function filterQuery(query = {}, ...keys) {
 
 export default {
   state: {
+    apiRoot: '',
     girderClient: null,
+    eventSource: null,
   },
   getters: {
     HTTP_CLIENT(state) {
@@ -20,10 +22,61 @@ export default {
   mutations: {
     HTTP_CLIENT_SET(state, value) {
       state.girderClient = value;
+      state.apiRoot = value.apiRoot;
     },
   },
   actions: {
-    HTTP_LOGOUT({ state }) {
+    // --- EVENTS -------------------------------------------------------------
+    HTTP_CONNECT_EVENTS({ state, dispatch }) {
+      console.log('HTTP_CONNECT_EVENTS');
+      dispatch('HTTP_DISCONNECT_EVENTS');
+      if (EventSource && !state.eventSource) {
+        state.eventSource = new EventSource(
+          `${state.apiRoot}/notification/stream`
+        );
+        state.eventSource.onmessage = ({ data }) => {
+          dispatch('HTTP_EVENT', JSON.parse(data));
+        };
+        state.eventSource.onerror = () => {
+          // Wait 2 seconds if the browser hasn't reconnected then reinitialize.
+          setTimeout(() => {
+            dispatch('HTTP_CONNECT_EVENTS');
+          }, 2000);
+        };
+      }
+    },
+    HTTP_DISCONNECT_EVENTS({ state }) {
+      if (
+        state.eventSource &&
+        state.eventSource.readyState !== EventSource.CLOSED
+      ) {
+        state.eventSource.close();
+      }
+      state.eventSource = null;
+    },
+    HTTP_EVENT({ dispatch }, message) {
+      const {
+        type,
+        data: { _id: id, status, log },
+      } = message;
+      console.log(message);
+      if (status) {
+        dispatch('EVENTS_STATUS', { id, type, status });
+      } else if (log) {
+        dispatch('EVENTS_LOG', { id, type, log });
+      } else if (type === 'progress') {
+        // progress
+        console.log(
+          `progress ${message.current}/${message.total} - ${(
+            (100 * message.current) /
+            message.total
+          ).toFixed(0)}%`
+        );
+      }
+    },
+    // --- LOGIN --------------------------------------------------------------
+    HTTP_LOGOUT({ state, dispatch }) {
+      dispatch('HTTP_DISCONNECT_EVENTS');
       state.girderClient.logout();
     },
     // --- PROJECTS -----------------------------------------------------------

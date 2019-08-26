@@ -11,6 +11,9 @@ export default {
     TASKFLOW_GET_BY_ID(state) {
       return (id) => state.taskflowMapById[id];
     },
+    TASKFLOW_GET_BY_TASK_ID(state) {
+      return (id) => state.taskflowMapByTaskId[id];
+    },
     TASKFLOW_PENDING_GET(state) {
       return (id) => state.pending[id];
     },
@@ -64,6 +67,9 @@ export default {
     },
     TASKFLOW_LOG_APPEND(state, { id, logEntry }) {
       const taskflow = state.taskflowMapById[id];
+      if (!taskflow) {
+        return;
+      }
       if (!taskflow.log) {
         taskflow.log = [];
       }
@@ -77,8 +83,10 @@ export default {
     },
     TASKFLOW_STATUS_SET(state, { id, status }) {
       const taskflow = state.taskflowMapById[id];
-      taskflow.flow.status = status;
-      Vue.set(state.taskflowMapById, id, taskflow);
+      if (taskflow) {
+        taskflow.flow.status = status;
+        Vue.set(state.taskflowMapById, id, taskflow);
+      }
     },
     TASKFLOW_JOB_LOG_APPEND(state, { id, jobId, logEntry }) {
       const taskflow = state.taskflowMapById[id];
@@ -112,7 +120,8 @@ export default {
         Vue.set(state.taskflowMapById, id, taskflow);
       }
     },
-    TASKFLOW_TASKS_SET(state, { id, tasks }) {
+    TASKFLOW_TASKS_SET(state, { id, tasks = [] }) {
+      console.log('TASKFLOW_TASKS_SET', id, tasks);
       const taskMapById = {};
       const taskflowMapByTaskId = {};
 
@@ -123,15 +132,24 @@ export default {
 
       // Update taskflow in map
       const taskflow = state.taskflowMapById[id];
-      taskflow.taskMapById = taskMapById;
-      Vue.set(state.taskflowMapById, id, taskflow);
+      if (taskflow) {
+        console.log('### update taskflow....');
+        taskflow.taskMapById = taskMapById;
+        state.taskflowMapById = Object.assign({}, state.taskflowMapById, {
+          [id]: taskflow,
+        });
 
-      // Update taskId/taskflow map
-      state.taskflowMapByTaskId = Object.assign(
-        {},
-        state.taskflowMapByTaskId,
-        taskflowMapByTaskId
-      );
+        // Update taskId/taskflow map
+        state.taskflowMapByTaskId = Object.assign(
+          {},
+          state.taskflowMapByTaskId,
+          taskflowMapByTaskId
+        );
+      } else {
+        console.error(
+          `Try to set tasks (${tasks.length}) to taskflow ${id} but none found`
+        );
+      }
     },
     TASKFLOW_TASK_STATUS_SET(state, { id, taskId, status }) {
       const taskflow = state.taskflowMapById[id];
@@ -224,8 +242,13 @@ export default {
       if (getters.TASKFLOW_PENDING_GET(pendingId)) {
         return;
       }
+      const taskflow = getters.TASKFLOW_GET_BY_ID(id);
       commit('TASKFLOW_PENDING_SET', { id: pendingId, pending: true });
-      await dispatch('HTTP_TASKFLOWS_DELETE', { id });
+      try {
+        await dispatch('HTTP_TASKFLOWS_DELETE', { id });
+      } catch (error) {
+        // the server might already know that taskflow does not exist
+      }
       commit('TASKFLOW_DELETE', id);
       if (simulationStep) {
         await dispatch('SIMULATION_UPDATE_STEP', {
@@ -233,6 +256,12 @@ export default {
           step: simulationStep.step,
           content: simulationStep.data,
         });
+      } else if (taskflow && taskflow.simulation) {
+        const simulation = await dispatch(
+          'SIMULATION_FETCH',
+          taskflow.simulation
+        );
+        dispatch('SIMULATION_TASKFLOWS_FETCH', simulation);
       }
       commit('TASKFLOW_PENDING_SET', { id: pendingId, pending: false });
     },
@@ -269,19 +298,39 @@ export default {
       return taskflow;
     },
     async TASKFLOW_TASKS_FETCH({ getters, commit, dispatch }, id) {
+      console.log('TASKFLOW_TASKS_FETCH', id);
       const pendingId = `${id}_tasks_fetch`;
       if (getters.TASKFLOW_PENDING_GET(pendingId)) {
+        console.log('skip pending');
         return [];
       }
-      const { data: tasks } = dispatch('HTTP_TASKFLOWS_GET_TASKS', { id });
+      const { data: tasks } = await dispatch('HTTP_TASKFLOWS_GET_TASKS', {
+        id,
+      });
       commit('TASKFLOW_TASKS_SET', { id, tasks });
       commit('TASKFLOW_PENDING_SET', { id: pendingId, pending: false });
       return tasks;
     },
+    async TASKFLOW_FETCH_UPDATE({ state, dispatch }) {
+      const { taskflowMapById } = state;
+      Object.keys(taskflowMapById).forEach(async (taskflowId) => {
+        if (
+          taskflowMapById[taskflowId].status !== 'complete' &&
+          taskflowMapById[taskflowId].status !== 'terminated'
+        ) {
+          try {
+            await dispatch('TASKFLOW_FETCH', taskflowId);
+          } catch (error) {
+            console.error('TASKFLOW_FETCH_BY_JOB_ID', error);
+            dispatch('TASKFLOW_DELETE', { id: taskflowId });
+          }
+        }
+      });
+    },
     async TASKFLOW_FETCH({ commit, dispatch }, id) {
       const { data: taskflow } = await dispatch('HTTP_TASKFLOWS_GET', { id });
-      console.log('TASKFLOW_FETCH', taskflow);
       commit('TASKFLOW_SET', { taskflow });
+      dispatch('TASKFLOW_TASKS_FETCH', id);
 
       if (taskflow.meta) {
         if (taskflow.meta.jobs) {
@@ -291,8 +340,6 @@ export default {
               dispatch('TASKFLOW_JOB_LOG_FETCH', { id, jobId: job._id });
             }
           });
-        } else {
-          dispatch('TASKFLOW_TASKS_FETCH', taskflow._id);
         }
 
         // FIXME... implement clusters

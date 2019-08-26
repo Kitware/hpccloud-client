@@ -75,7 +75,6 @@ export default {
       state.projectSimulations = {};
       state.simulationsMap = {};
     },
-
     async SIMULATION_FETCH({ commit, dispatch }, id) {
       const { data } = await dispatch('HTTP_SIMULATIONS_GET_BY_ID', id);
       commit('SIMULATION_SET', data);

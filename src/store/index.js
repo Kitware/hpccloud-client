@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import active from 'hpccloud-client/src/store/active';
+import events from 'hpccloud-client/src/store/events';
 import http from 'hpccloud-client/src/store/http';
 import simput from 'hpccloud-client/src/store/simput';
 import simulation from 'hpccloud-client/src/store/simulation';
@@ -21,6 +22,7 @@ function createStore() {
     },
     modules: {
       active,
+      events,
       http,
       runtimeTrad,
       simput,
@@ -43,13 +45,16 @@ function createStore() {
 
         girderClient.$on('login', (user) => {
           dispatch('UPDATE_USER', user);
+          dispatch('HTTP_CONNECT_EVENTS');
         });
         girderClient.$on('logout', () => {
           dispatch('UPDATE_USER', null);
+          dispatch('HTTP_DISCONNECT_EVENTS');
         });
 
         const user = await girderClient.fetchUser();
         await dispatch('UPDATE_USER', user);
+        dispatch('HTTP_CONNECT_EVENTS');
 
         state.ready = true;
       },

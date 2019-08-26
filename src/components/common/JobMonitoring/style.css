@@ -1,0 +1,7 @@
+.denseExpansionPanel {
+  padding-bottom: 0 !important;
+}
+
+.denseExpansionPanel :global(.v-expansion-panel__header) {
+  padding: 0;
+}

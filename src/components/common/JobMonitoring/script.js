@@ -32,11 +32,11 @@ export default {
       default: null,
     },
   },
-  // watch: {
-  //   taskflowId(v) {
-  //     console.log(v);
-  //   },
-  // },
+  data() {
+    return {
+      openSections: [true],
+    };
+  },
   computed: {
     ...mapGetters({
       taskflowById: 'TASKFLOW_GET_BY_ID',
@@ -53,8 +53,6 @@ export default {
       // Sort the tasks by created timestamp
       list.sort((task1, task2) => task1.created - task2.created);
 
-      console.log('tasks', list);
-
       return list;
     },
     jobs() {
@@ -63,21 +61,23 @@ export default {
         list = Object.values(this.taskflow.jobMapById);
       }
 
-      console.log('jobs', list);
-
       return list;
     },
     log() {
-      return this.taskflow ? this.taskflow.log : '';
+      return this.taskflow ? this.taskflow.log : [];
     },
     status() {
       return this.taskflow ? this.taskflow.flow.status : '';
     },
-    statusSummary() {
+    taskStatusSummary() {
       const summary = {};
       if (this.taskflow && this.taskflow.taskMapById) {
         statusCounter(this.taskflow.taskMapById, summary);
       }
+      return summary;
+    },
+    jobStatusSummary() {
+      const summary = {};
       if (this.taskflow && this.taskflow.jobMapById) {
         statusCounter(this.taskflow.jobMapById, summary);
       }

@@ -11,6 +11,7 @@ export default {
         return [
           'created',
           'pending',
+          'queued',
           'running',
           'complete',
           'completed',
