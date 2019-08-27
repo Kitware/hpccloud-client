@@ -97,4 +97,14 @@
       </v-list>
     </v-expansion-panel-content>
   </v-expansion-panel>
+  <v-layout class="mt-3">
+    <v-spacer />
+    <v-btn
+      v-for="action in actionList"
+      :key="action"
+      @click="onAction(action)"
+    >
+      {{ actionToLabel(action) | actionLabel }}
+    </v-btn>
+  </v-layout>
 </v-container>

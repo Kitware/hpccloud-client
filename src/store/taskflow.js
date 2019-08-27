@@ -1,5 +1,11 @@
 import Vue from 'vue';
 
+const SIMULATIONS_STATUS_MAP = {};
+
+function equals(a, b) {
+  return JSON.stringify(a) === JSON.stringify(b);
+}
+
 export default {
   state: {
     pending: {},
@@ -155,7 +161,7 @@ export default {
       const taskflow = state.taskflowMapById[id];
       const task = taskflow.taskMapById[taskId];
 
-      if (task.status !== status) {
+      if (task && task.status !== status) {
         task.status = status;
         Vue.set(state.taskflowMapById, id, taskflow);
       }

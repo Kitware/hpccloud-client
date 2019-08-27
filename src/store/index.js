@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import active from 'hpccloud-client/src/store/active';
+import clusters from 'hpccloud-client/src/store/clusters';
 import events from 'hpccloud-client/src/store/events';
 import http from 'hpccloud-client/src/store/http';
 import simput from 'hpccloud-client/src/store/simput';
@@ -22,6 +23,7 @@ function createStore() {
     },
     modules: {
       active,
+      clusters,
       events,
       http,
       runtimeTrad,
@@ -46,6 +48,9 @@ function createStore() {
         girderClient.$on('login', (user) => {
           dispatch('UPDATE_USER', user);
           dispatch('HTTP_CONNECT_EVENTS');
+
+          // Fetch any user specific data
+          dispatch('CLUSTERS_FETCH');
         });
         girderClient.$on('logout', () => {
           dispatch('UPDATE_USER', null);
