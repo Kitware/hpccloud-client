@@ -65,7 +65,9 @@ export default {
       Vue.set(state.projectSimulations, projectId, ids);
     },
     SIMULATION_SET(state, simulation) {
-      Vue.set(state.simulationsMap, simulation._id, simulation);
+      state.simulationsMap = Object.assign({}, state.simulationsMap, {
+        [simulation._id]: simulation,
+      });
     },
   },
   actions: {

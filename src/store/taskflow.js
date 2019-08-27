@@ -63,7 +63,9 @@ export default {
         });
       }
 
-      Vue.set(state.taskflowMapById, id, newContent);
+      state.taskflowMapById = Object.assign({}, state.taskflowMapById, {
+        [id]: newContent,
+      });
     },
     TASKFLOW_LOG_APPEND(state, { id, logEntry }) {
       const taskflow = state.taskflowMapById[id];
@@ -121,7 +123,6 @@ export default {
       }
     },
     TASKFLOW_TASKS_SET(state, { id, tasks = [] }) {
-      console.log('TASKFLOW_TASKS_SET', id, tasks);
       const taskMapById = {};
       const taskflowMapByTaskId = {};
 
@@ -133,7 +134,6 @@ export default {
       // Update taskflow in map
       const taskflow = state.taskflowMapById[id];
       if (taskflow) {
-        console.log('### update taskflow....');
         taskflow.taskMapById = taskMapById;
         state.taskflowMapById = Object.assign({}, state.taskflowMapById, {
           [id]: taskflow,
@@ -222,16 +222,25 @@ export default {
       commit('TASKFLOW_JOB_STATUS_SET', { id, jobId, status: data.status });
       return data.status;
     },
-    async TASKFLOW_START({ dispatch }, { id, payload, simulationStep }) {
+    async TASKFLOW_START(
+      { commit, dispatch },
+      { id, payload, simulationStep }
+    ) {
       await dispatch('HTTP_TASKFLOWS_START', { id, cluster: payload });
       if (simulationStep) {
-        await dispatch('HTTP_SIMULATIONS_UPDATE_STEP', {
+        const content = Object.assign({}, simulationStep.data);
+        content.metadata = Object.assign({}, simulationStep.data.metadata, {
+          taskflowId: id,
+        });
+
+        const { data } = await dispatch('HTTP_SIMULATIONS_UPDATE_STEP', {
           id: simulationStep.id,
           step: simulationStep.step,
-          content: Object.assign({}, simulationStep.data.metadata, {
-            taskflowId: id,
-          }),
+          content,
         });
+        commit('SIMULATION_SET', data);
+      } else {
+        console.log('no simulationStep', simulationStep);
       }
     },
     async TASKFLOW_DELETE(
@@ -270,7 +279,7 @@ export default {
       { taskFlowName, primaryJob, payload, simulationStep }
     ) {
       // Create taskflow and store it locally
-      const { data: taskflow } = dispatch(
+      const { data: taskflow } = await dispatch(
         'HTTP_TASKFLOWS_CREATE',
         taskFlowName
       );
@@ -298,7 +307,6 @@ export default {
       return taskflow;
     },
     async TASKFLOW_TASKS_FETCH({ getters, commit, dispatch }, id) {
-      console.log('TASKFLOW_TASKS_FETCH', id);
       const pendingId = `${id}_tasks_fetch`;
       if (getters.TASKFLOW_PENDING_GET(pendingId)) {
         console.log('skip pending');

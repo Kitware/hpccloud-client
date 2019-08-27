@@ -17,19 +17,24 @@ export default anonymousRedirect(
         project: 'ACTIVE_PROJECT',
         workflow: 'ACTIVE_WORKFLOW',
       }),
+      step() {
+        return this.simulation.active;
+      },
+      view() {
+        return (
+          this.simulation.steps[this.step].view ||
+          this.$route.params.view ||
+          'default'
+        );
+      },
       component() {
-        const step = this.simulation.active;
-        if (!step || !this.workflow || !this.workflow.steps[step]) {
+        if (!this.step || !this.workflow || !this.workflow.steps[this.step]) {
           return NoContent;
         }
 
-        const view =
-          this.simulation.steps[step].view ||
-          this.$route.params.view ||
-          'default';
-
         return (
-          this.workflow.steps[step][view] || this.workflow.steps[step].default
+          this.workflow.steps[this.step][this.view] ||
+          this.workflow.steps[this.step].default
         );
       },
       metadata() {

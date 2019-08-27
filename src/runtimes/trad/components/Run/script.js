@@ -60,7 +60,7 @@ export default {
         );
       }
 
-      console.log('submit job', JSON.stringify(commonPayload, null, 2));
+      this.$emit('submit', commonPayload);
     },
   },
 };

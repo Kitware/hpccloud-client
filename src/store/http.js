@@ -28,7 +28,6 @@ export default {
   actions: {
     // --- EVENTS -------------------------------------------------------------
     HTTP_CONNECT_EVENTS({ state, dispatch }) {
-      console.log('HTTP_CONNECT_EVENTS');
       dispatch('HTTP_DISCONNECT_EVENTS');
       if (EventSource && !state.eventSource) {
         state.eventSource = new EventSource(
@@ -59,7 +58,6 @@ export default {
         type,
         data: { _id: id, status, log },
       } = message;
-      console.log(message);
       if (status) {
         dispatch('EVENTS_STATUS', { id, type, status });
       } else if (log) {
@@ -158,9 +156,15 @@ export default {
       return await state.girderClient.get(`simulations/${id}/steps/${name}`);
     },
     async HTTP_SIMULATIONS_UPDATE_STEP({ state }, { id, step, content }) {
+      const payload = Object.assign({}, content);
+      // Remove read-only keys
+      ['type', 'folderId'].forEach((key) => {
+        delete payload[key];
+      });
+
       return await state.girderClient.patch(
         `simulations/${id}/steps/${step}`,
-        content
+        payload
       );
     },
     async HTTP_SIMULATIONS_GET_ACCESS({ state }, id) {

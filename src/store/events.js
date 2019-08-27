@@ -1,7 +1,6 @@
 export default {
   actions: {
     EVENTS_STATUS({ getters, commit, dispatch }, { id, type, status }) {
-      console.log('EVENTS_STATUS');
       const taskflowId = getters.TASKFLOW_GET_BY_TASK_ID(id);
       const mainType = type.split('.')[0];
       if (mainType === 'taskflow') {
@@ -61,7 +60,6 @@ export default {
       }
     },
     EVENTS_LOG({ getters, commit, dispatch }, { id, type, log }) {
-      console.log('EVENTS_LOG');
       const taskflowId = getters.TASKFLOW_GET_BY_TASK_ID(id);
       const mainType = type.split('.')[0];
       if (mainType === 'taskflow') {
