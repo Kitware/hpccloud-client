@@ -55,7 +55,7 @@ export default {
   },
   data() {
     return {
-      openSections: [true],
+      openSections: [true, true],
     };
   },
   computed: {

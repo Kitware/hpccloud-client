@@ -3,6 +3,7 @@
     <v-expansion-panel-content hide-actions>
       <template v-slot:header>
         <v-layout>
+          <v-icon>{{ $vuetify.icons.hpccloud.jobs }}</v-icon>
           <v-toolbar-title>Jobs</v-toolbar-title>
           <v-spacer />
           <hpc-status-summary :summary="jobStatusSummary" />
@@ -18,6 +19,7 @@
               <template v-slot:header>
                 <v-list-tile
                   :key="job.name"
+                  class="pl-2"
                 >
                   <v-list-tile-avatar>
                     <v-icon>
@@ -37,7 +39,11 @@
                   </v-list-tile-action>
                 </v-list-tile>
               </template>
-              <hpc-log-entry :log="job.log" v-if="job.log && job.log.length" />
+              <hpc-log-entry
+                :log="job.log"
+                v-show="job.log && job.log.length"
+                class="pl-4"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </template>
@@ -47,15 +53,20 @@
     <v-expansion-panel-content hide-actions>
       <template v-slot:header>
         <v-layout>
+          <v-icon>{{ $vuetify.icons.hpccloud.logs }}</v-icon>
           <v-toolbar-title>Log</v-toolbar-title>
         </v-layout>
       </template>
-      <hpc-log-entry :log="log" />
+      <hpc-log-entry
+        :log="log"
+        class="pl-3"
+      />
     </v-expansion-panel-content>
 
     <v-expansion-panel-content hide-actions>
       <template v-slot:header>
         <v-layout>
+          <v-icon>{{ $vuetify.icons.hpccloud.tasks }}</v-icon>
           <v-toolbar-title>Workflow tasks</v-toolbar-title>
           <v-spacer />
           <hpc-status-summary :summary="taskStatusSummary" />
@@ -71,6 +82,7 @@
               <template v-slot:header>
                 <v-list-tile
                   :key="task.name"
+                  class="pl-2"
                 >
                   <v-list-tile-avatar>
                     <v-icon>
@@ -90,7 +102,11 @@
                   </v-list-tile-action>
                 </v-list-tile>
               </template>
-              <hpc-log-entry :log="task.log" v-if="task.log && task.log.length" />
+              <hpc-log-entry
+                :log="task.log"
+                v-show="task.log && task.log.length"
+                class="pl-4"
+              />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </template>

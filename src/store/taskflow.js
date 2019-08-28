@@ -1,11 +1,5 @@
 import Vue from 'vue';
 
-const SIMULATIONS_STATUS_MAP = {};
-
-function equals(a, b) {
-  return JSON.stringify(a) === JSON.stringify(b);
-}
-
 export default {
   state: {
     pending: {},

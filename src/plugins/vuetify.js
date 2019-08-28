@@ -47,6 +47,9 @@ Object.assign(girderVuetifyConfig.icons, {
   hpccloud: {
     editStep: 'mdi-circle-edit-outline',
     log: 'mdi-timeline-text-outline',
+    jobs: 'mdi-format-list-bulleted-type',
+    logs: 'mdi-message-text-outline',
+    tasks: 'mdi-source-branch',
   },
 });
 
