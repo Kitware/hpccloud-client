@@ -6,30 +6,26 @@ import {
 
 export default {
   state: {
-    vuetify: null,
-    loadedCount: 0,
-    listener: false,
+    mtime: 0,
   },
   getters: {
     WF_GET(state) {
-      state.loadedCount; // describe a dependency
+      state.mtime; // describe a dependency
       return (name) => AVAILABLE_WORFLOW[name];
-    },
-    WF_COUNT(state) {
-      return state.loadedCount;
     },
   },
   actions: {
+    WF_UPDATED({ state }) {
+      state.mtime++;
+    },
     WF_ICONS_CONTAINER(ctx, container) {
       setIconsContainer(container);
     },
-    WF_LOAD({ dispatch }, name) {
-      loadType(name).then(() => {
-        dispatch('WF_UPDATE_COUNT');
-      });
-    },
-    WF_UPDATE_COUNT({ state }) {
-      state.loadedCount = Object.keys(AVAILABLE_WORFLOW).length;
+    async WF_LOAD({ dispatch }, name) {
+      if (await loadType(name)) {
+        console.log('wf updated');
+        dispatch('WF_UPDATED');
+      }
     },
   },
 };

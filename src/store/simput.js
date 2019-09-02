@@ -1,26 +1,9 @@
 import Vue from 'vue';
 
 import { setSimputTypeLoader } from 'hpccloud-client/src/WorkflowManager';
+import { loadScript } from 'hpccloud-client/src/ScriptLoader';
 
 import ModelManager from 'simput/src/core/ModelManager';
-
-const LOADED_SCRIPTS = [];
-
-function loadScript(url) {
-  return new Promise((resolve, reject) => {
-    if (LOADED_SCRIPTS.indexOf(url) === -1) {
-      LOADED_SCRIPTS.push(url);
-      const newScriptTag = document.createElement('script');
-      newScriptTag.type = 'text/javascript';
-      newScriptTag.src = url;
-      newScriptTag.onload = resolve;
-      newScriptTag.onerror = reject;
-      document.body.appendChild(newScriptTag);
-    } else {
-      resolve();
-    }
-  });
-}
 
 export default {
   state: {

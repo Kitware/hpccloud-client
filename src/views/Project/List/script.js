@@ -21,10 +21,8 @@ export default anonymousRedirect(
     computed: {
       ...mapGetters({
         projects: 'PROJECTS',
-        wfCount: 'WF_COUNT',
       }),
       items() {
-        console.log(this.wfCount);
         return this.projects.map(projectToTable);
       },
     },

@@ -335,7 +335,7 @@ export default {
         }
       });
     },
-    async TASKFLOW_FETCH({ commit, dispatch }, id) {
+    async TASKFLOW_FETCH({ commit, getters, dispatch }, id) {
       const { data: taskflow } = await dispatch('HTTP_TASKFLOWS_GET', { id });
       commit('TASKFLOW_SET', { taskflow });
       dispatch('TASKFLOW_TASKS_FETCH', id);
@@ -355,7 +355,7 @@ export default {
         //   clusterActions.fetchClusters();
         // }
       }
-      return taskflow;
+      return getters.TASKFLOW_GET_BY_ID(id);
     },
     async TASKFLOW_TERMINATE({ dispatch }, id) {
       const { data } = await dispatch('HTTP_TASKFLOWS_TERMINATE', { id });

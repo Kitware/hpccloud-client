@@ -8,6 +8,7 @@ import http from 'hpccloud-client/src/store/http';
 import simput from 'hpccloud-client/src/store/simput';
 import simulation from 'hpccloud-client/src/store/simulation';
 import taskflow from 'hpccloud-client/src/store/taskflow';
+import tools from 'hpccloud-client/src/store/tools';
 import workflow from 'hpccloud-client/src/store/workflow';
 
 // runtimes
@@ -30,6 +31,7 @@ function createStore() {
       simput,
       simulation,
       taskflow,
+      tools,
       workflow,
     },
     getters: {

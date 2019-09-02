@@ -55,7 +55,7 @@ export default {
     },
   },
   actions: {
-    async ACTIVE_PROCESS_ROUTE({ state, commit, dispatch }, route) {
+    async ACTIVE_PROCESS_ROUTE({ state, getters, commit, dispatch }, route) {
       const { path, params } = route;
       const [, objectType, viewType, id] = path.split('/');
       state.viewType = viewType;
@@ -85,10 +85,19 @@ export default {
               commit('PROJECT_SET_SIMULATIONS', data);
             }
             break;
+          case 'tool': {
+            dispatch('TOOLS_LOAD', viewType);
+            // tools can only operate on simulation so we keep going...
+          }
+          /* eslint-disable no-fallthrough */
           case 'simulation':
             {
-              const sim = await dispatch('SIMULATION_FETCH', id);
-              Vue.set(state.lastIds, 'project', sim.projectId);
+              if (getters.ACTIVE_SIMULATION._id !== id) {
+                const sim = await dispatch('SIMULATION_FETCH', id);
+                await dispatch('SIMULATION_TASKFLOWS_FETCH', sim);
+                state.lastIds.simulation = id;
+                Vue.set(state.lastIds, 'project', sim.projectId);
+              }
             }
             break;
         }

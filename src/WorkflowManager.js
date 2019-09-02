@@ -1,9 +1,10 @@
+import { loadScript } from 'hpccloud-client/src/ScriptLoader';
+
 let ICONS = {};
 let SIMPUT_TYPE_LOADER = () => {};
 const LISTENERS = [];
 
 export const AVAILABLE_WORFLOW = {};
-export const LOADED_WORKFLOW = [];
 
 export function register(metadata) {
   console.log('load wf', metadata.name);
@@ -27,19 +28,7 @@ export function onRegistration(fnCallback) {
 }
 
 export function loadType(typeName) {
-  return new Promise((resolve, reject) => {
-    if (LOADED_WORKFLOW.indexOf(typeName) === -1) {
-      LOADED_WORKFLOW.push(typeName);
-      const newScriptTag = document.createElement('script');
-      newScriptTag.type = 'text/javascript';
-      newScriptTag.src = `workflows/${typeName}.umd.min.js`;
-      newScriptTag.onload = resolve;
-      newScriptTag.onerror = reject;
-      document.body.appendChild(newScriptTag);
-    } else {
-      resolve();
-    }
-  });
+  return loadScript(`workflows/${typeName}.umd.min.js`);
 }
 
 export function setIconsContainer(container) {

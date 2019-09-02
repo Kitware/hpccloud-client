@@ -2,6 +2,7 @@ import Home from 'hpccloud-client/src/views/Home.vue';
 import ProjectList from 'hpccloud-client/src/views/Project/List';
 import ProjectView from 'hpccloud-client/src/views/Project/View';
 import SimulationView from 'hpccloud-client/src/views/Simulation/View';
+import ToolView from 'hpccloud-client/src/views/Tool';
 
 export default [
   {
@@ -23,6 +24,11 @@ export default [
     path: '/simulation/view/:id/:view?',
     name: 'simulationView',
     component: SimulationView,
+  },
+  {
+    path: '/tool/:toolName/:id/',
+    name: 'toolView',
+    component: ToolView,
   },
   {
     path: '/login',
