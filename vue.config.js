@@ -4,6 +4,16 @@ module.exports = {
     config.resolve.alias.set('hpccloud-client', __dirname);
   },
   devServer: {
-    proxy: 'http://localhost:8888',
+    proxy: {
+      '/proxy': {
+        target: 'ws://localhost:8888/',
+        ws: true,
+        changeOrigin: true,
+        proxyTimeout: 100000,
+      },
+      '/api': {
+        target: 'http://localhost:8888',
+      },
+    },
   },
 };
