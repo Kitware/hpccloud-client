@@ -67,7 +67,7 @@ export default {
       }
 
       if (foldContent !== null) {
-        console.error('Got log hierarchy...');
+        // console.error('Got log hierarchy...');
         // if (foldContent !== null) {
         //   return (
         //     <LogFold
@@ -78,6 +78,7 @@ export default {
         //     />
         //   );
         // }
+        return [content, foldContent].join('\n');
       }
 
       return content;
