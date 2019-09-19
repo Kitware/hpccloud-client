@@ -9,8 +9,6 @@ export default anonymousRedirect(
         this.$router.push(`/project/view/${this.project._id}`);
       },
       async createSimulation() {
-        console.log('attachments', this.attachments);
-        console.log('workflow', this.workflow);
         if (this.$refs.form.validate()) {
           const steps = this.workflow.steps._initial_state;
           const disabled = this.workflow.steps._disabled || [];
@@ -31,7 +29,6 @@ export default anonymousRedirect(
         }
       },
       addAttachement({ name, file }) {
-        console.log('attachment name', name);
         this.attachments[name] = file;
       },
     },

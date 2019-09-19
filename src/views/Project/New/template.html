@@ -25,6 +25,19 @@
           :rules="rules.type"
         />
       </v-flex>
+
+      <v-flex
+        xs12
+        v-for="fileKey in fileKeys"
+        :key="fileKey"
+      >
+        <hpc-file-upload
+          :name="fileKey"
+          :label="workflow.inputFiles[fileKey].label"
+          :accept="workflow.inputFiles[fileKey].accept"
+          @updateAttachement="addAttachement"
+        />
+      </v-flex>
     </v-layout>
     <v-layout>
       <v-btn @click="createProject">Create</v-btn>

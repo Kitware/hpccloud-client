@@ -242,8 +242,6 @@ export default {
           content,
         });
         commit('SIMULATION_SET', data);
-      } else {
-        console.log('no simulationStep', simulationStep);
       }
     },
     async TASKFLOW_DELETE(
@@ -312,7 +310,6 @@ export default {
     async TASKFLOW_TASKS_FETCH({ getters, commit, dispatch }, id) {
       const pendingId = `${id}_tasks_fetch`;
       if (getters.TASKFLOW_PENDING_GET(pendingId)) {
-        console.log('skip pending');
         return [];
       }
       const { data: tasks } = await dispatch('HTTP_TASKFLOWS_GET_TASKS', {

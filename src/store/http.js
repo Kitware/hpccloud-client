@@ -138,7 +138,6 @@ export default {
       }
 
       const data = await uploadNextChunk(0);
-      console.log('file', data);
       return { data };
     },
     // --- PROJECTS -----------------------------------------------------------

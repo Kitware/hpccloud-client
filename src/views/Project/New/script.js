@@ -9,8 +9,6 @@ export default anonymousRedirect(
         this.$router.push('/');
       },
       async createProject() {
-        console.log('attachments', this.attachments);
-        console.log('steps', this.steps);
         if (this.$refs.form.validate()) {
           const project = await this.$store.dispatch('PROJECT_CREATE', {
             name: this.name,
@@ -23,15 +21,18 @@ export default anonymousRedirect(
           this.$router.push(`/project/view/${project._id}`);
         }
       },
+      addAttachement({ name, file }) {
+        this.attachments[name] = file;
+      },
     },
     watch: {
       type(value) {
         this.$store.dispatch('WF_LOAD', value).then(() => {
           this.workflow = this.workflowByName(value);
-          this.expectedAttachement =
+          this.fileKeys =
             (this.workflow &&
-              this.workflow.requiredAttachments &&
-              this.workflow.requiredAttachments.project) ||
+              this.workflow.attachments &&
+              this.workflow.attachments.project) ||
             [];
         });
       },
@@ -43,8 +44,8 @@ export default anonymousRedirect(
         description: '',
         type: '',
         metadata: {},
-        attachments: null,
-        expectedAttachement: [],
+        attachments: {},
+        fileKeys: [],
         rules: {
           name: [
             (v) => !!v || 'Name is required',
