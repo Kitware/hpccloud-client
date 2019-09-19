@@ -22,6 +22,7 @@ Object.assign(girderVuetifyConfig.icons, {
   home: 'mdi-home',
   project: 'mdi-folder-outline',
   simulation: 'mdi-file-document-outline',
+  new: 'mdi-file-document-box-plus-outline',
 });
 
 // Simput icons
@@ -64,7 +65,12 @@ Object.assign(girderVuetifyConfig.icons, {
     complete: 'mdi-database-check',
     terminating: 'mdi-database-export',
     terminated: 'mdi-database-remove',
+    error: 'mdi-database-remove',
   },
+});
+
+Object.assign(girderVuetifyConfig, {
+  iconfont: 'mdi',
 });
 
 // Bind plugin

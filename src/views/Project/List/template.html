@@ -5,7 +5,7 @@
   dense
 >
   <template v-slot:items="props">
-    <td :data-id="props.item.id" @click="view" style="cursor: pointer;">
+    <td :data-id="props.item.id" :data-mtime="modified" @click="view" style="cursor: pointer;">
       <v-icon small>{{ $vuetify.icons[props.item.type] }}</v-icon>
       {{ props.item.name }}
     </td>
@@ -13,6 +13,8 @@
       {{ getRelativeTimeLabel(props.item.modified) }}
     </td>
     <td class="text-xs-center">{{ props.item.summary }}</td>
-    <td class="text-xs-right">{{ props.item.actions }}</td>
+    <td class="text-xs-right">
+      <v-btn icon @click="goTo(props.item.id, 'edit')"><v-icon>{{ $vuetify.icons.edit }}</v-icon></v-btn>
+    </td>
   </template>
 </v-data-table>

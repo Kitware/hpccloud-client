@@ -1,6 +1,10 @@
 import Home from 'hpccloud-client/src/views/Home.vue';
+import ProjectEdit from 'hpccloud-client/src/views/Project/Edit';
 import ProjectList from 'hpccloud-client/src/views/Project/List';
+import ProjectNew from 'hpccloud-client/src/views/Project/New';
 import ProjectView from 'hpccloud-client/src/views/Project/View';
+import SimulationEdit from 'hpccloud-client/src/views/Simulation/Edit';
+import SimulationNew from 'hpccloud-client/src/views/Simulation/New';
 import SimulationView from 'hpccloud-client/src/views/Simulation/View';
 import ToolView from 'hpccloud-client/src/views/Tool';
 
@@ -19,6 +23,26 @@ export default [
     path: '/project/view/:id',
     name: 'projectView',
     component: ProjectView,
+  },
+  {
+    path: '/project/edit/:id',
+    name: 'projectEdit',
+    component: ProjectEdit,
+  },
+  {
+    path: '/project/new/',
+    name: 'projectNew',
+    component: ProjectNew,
+  },
+  {
+    path: '/simulation/new/:id',
+    name: 'simulationNew',
+    component: SimulationNew,
+  },
+  {
+    path: '/simulation/edit/:id',
+    name: 'simulationEdit',
+    component: SimulationEdit,
   },
   {
     path: '/simulation/view/:id/:view?',

@@ -10,8 +10,16 @@
 
   <v-tooltip bottom>
     <template v-slot:activator="{ on }">
-      <v-btn icon small :to="`/project/view/${projectId}`" v-on="on" v-show="!!projectId">
-        <v-icon small>{{ $vuetify.icons[project.type] || $vuetify.icons.project }}</v-icon>
+      <v-btn
+        icon
+        small
+        :to="`/project/view/${projectId}`"
+        v-on="on"
+        v-show="!!projectId"
+      >
+        <v-icon small
+          >{{ $vuetify.icons[project.type] || $vuetify.icons.project }}</v-icon
+        >
       </v-btn>
     </template>
     <span>Go to project <i>{{ project.name }}</i> view</span>
@@ -34,13 +42,9 @@
 
   <label class="ml-2">{{ title }}</label>
 
-  <v-spacer/>
+  <v-spacer />
 
-  <v-stepper
-    v-if="steps.length"
-    v-model="activeIndex"
-    :class="$style.steps"
-  >
+  <v-stepper v-if="steps.length" v-model="activeIndex" :class="$style.steps">
     <v-stepper-step
       v-for="(step, idx) in steps"
       :key="`${idx + 1}-step`"
@@ -48,8 +52,17 @@
       :edit-icon="$vuetify.icons.hpccloud.editStep"
       :editable="idx + 1 < activeIndex"
       :class="$style.step"
-    >{{ step }}</v-stepper-step>
+      >{{ step }}</v-stepper-step
+    >
   </v-stepper>
 
-  <v-spacer/>
+  <v-spacer />
+  <v-btn
+    v-if="hasNew"
+    icon
+    small
+    @click="createNewItem"
+  >
+    <v-icon small>{{ $vuetify.icons.new }}</v-icon>
+  </v-btn>
 </v-toolbar>

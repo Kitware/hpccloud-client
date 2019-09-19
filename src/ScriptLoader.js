@@ -4,7 +4,7 @@ export function loadScript(url) {
   return new Promise((resolve, reject) => {
     if (LOADED_SCRIPTS.indexOf(url) === -1) {
       LOADED_SCRIPTS.push(url);
-      console.log('Loading script', url);
+      console.log('=> Loading script', url);
       const newScriptTag = document.createElement('script');
       newScriptTag.type = 'text/javascript';
       newScriptTag.src = url;
@@ -22,7 +22,7 @@ export function loadCSS(url) {
   return new Promise((resolve, reject) => {
     if (LOADED_SCRIPTS.indexOf(url) === -1) {
       LOADED_SCRIPTS.push(url);
-      console.log('Loading css', url);
+      console.log('=> Loading css', url);
       const newScriptTag = document.createElement('link');
       newScriptTag.rel = 'stylesheet';
       newScriptTag.href = url;

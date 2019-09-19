@@ -7,7 +7,7 @@ const LISTENERS = [];
 export const AVAILABLE_WORFLOW = {};
 
 export function register(metadata) {
-  console.log('load wf', metadata.name);
+  console.log('==> Register Workflow', metadata.name);
   AVAILABLE_WORFLOW[metadata.name] = metadata;
 
   // Register icon

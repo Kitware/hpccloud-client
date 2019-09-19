@@ -25,8 +25,7 @@ export default {
     },
     ACTIVE_WORKFLOW(state, getters) {
       const { type } = getters.ACTIVE_PROJECT;
-      const { name } = getters.ACTIVE_SIMULATION;
-      if (type && name) {
+      if (type) {
         return getters.WF_GET(type);
       }
       return null;
@@ -45,8 +44,9 @@ export default {
       return 0;
     },
     ACTIVE_SIMULATION_STEPS(state, getters) {
+      const { name } = getters.ACTIVE_SIMULATION;
       const workflow = getters.ACTIVE_WORKFLOW;
-      return (workflow && workflow.steps._order) || [];
+      return (name && workflow && workflow.steps._order) || [];
     },
   },
   mutations: {
@@ -55,6 +55,16 @@ export default {
     },
   },
   actions: {
+    ACTIVATE_PROJECT({ state }, project) {
+      state.lastIds = Object.assign({}, state.lastIds, {
+        project: project._id,
+      });
+    },
+    ACTIVATE_SIMULATION({ state }, simulation) {
+      state.lastIds = Object.assign({}, state.lastIds, {
+        simulation: simulation._id,
+      });
+    },
     async ACTIVE_PROCESS_ROUTE({ state, getters, commit, dispatch }, route) {
       const { path, params } = route;
       const [, objectType, viewType, id] = path.split('/');
@@ -62,6 +72,11 @@ export default {
 
       if (id) {
         Vue.set(state.lastIds, objectType, params.id);
+      }
+
+      if (objectType === 'simulation' && viewType === 'new') {
+        Vue.set(state.lastIds, 'project', id);
+        return;
       }
 
       if (objectType === 'projects') {
@@ -82,7 +97,10 @@ export default {
                 'HTTP_PROJECTS_GET_SIMULATION_LIST',
                 id
               );
-              commit('PROJECT_SET_SIMULATIONS', data);
+              commit('PROJECT_SET_SIMULATIONS', {
+                projectId: id,
+                simulations: data,
+              });
             }
             break;
           case 'tool': {

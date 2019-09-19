@@ -4,6 +4,7 @@ export default {
   },
   getters: {
     CLUSTERS_GET_BY_ID(state) {
+      state.clusters;
       return (id_) => state.clusters.find(({ id }) => id === id_);
     },
   },

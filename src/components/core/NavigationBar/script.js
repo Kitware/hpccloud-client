@@ -20,15 +20,28 @@ export default {
         return this.stepIdx + 1;
       },
       set(v) {
-        const { _id: id } = this.simulation;
-        const active = this.steps[v - 1];
-        this.updateActiveStep({ id, active });
+        if (this.simulation && this.simulation.name) {
+          this.updateActiveStep({
+            id: this.simulation._id,
+            active: this.steps[v - 1],
+          });
+        }
       },
+    },
+    hasNew() {
+      return this.steps.length === 0;
     },
   },
   methods: {
     ...mapActions({
       updateActiveStep: 'SIMULATION_UPDATE_ACTIVE_STEP',
     }),
+    createNewItem() {
+      if (this.project.name) {
+        this.$router.push(`/simulation/new/${this.project._id}`);
+      } else {
+        this.$router.push('/project/new');
+      }
+    },
   },
 };

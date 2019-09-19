@@ -1,0 +1,7 @@
+[
+  { "value": "PyFr", "text": "PyFr" },
+  { "value": "Visualizer", "text": "ParaView Lite" },
+  { "value": "Conus", "text": "ParaFlow CONUS" },
+  { "value": "Washita", "text": "ParaFlow Washita" },
+  { "value": "ParaFlowEdu", "text": "ParaFlow Sandbox" }
+]

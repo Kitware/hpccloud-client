@@ -1,3 +1,4 @@
+import FileUploadEntry from 'hpccloud-client/src/components/common/FileUploadEntry';
 import JobMonitoring from 'hpccloud-client/src/components/common/JobMonitoring';
 import JobScheduling from 'hpccloud-client/src/components/common/JobScheduling';
 import LogEntry from 'hpccloud-client/src/components/common/LogEntry';
@@ -8,6 +9,7 @@ import Simput from 'hpccloud-client/src/components/common/Simput';
 import StatusSummary from 'hpccloud-client/src/components/common/StatusSummary';
 
 function install(Vue) {
+  Vue.component('hpc-file-upload', FileUploadEntry);
   Vue.component('hpc-job-monitoring', JobMonitoring);
   Vue.component('hpc-job-scheduling', JobScheduling);
   Vue.component('hpc-log-entry', LogEntry);

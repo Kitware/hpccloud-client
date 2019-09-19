@@ -9,12 +9,15 @@ export default {
   },
   getters: {
     TASKFLOW_GET_BY_ID(state) {
+      state.taskflowMapById;
       return (id) => state.taskflowMapById[id];
     },
     TASKFLOW_GET_BY_TASK_ID(state) {
+      state.taskflowMapByTaskId;
       return (id) => state.taskflowMapByTaskId[id];
     },
     TASKFLOW_PENDING_GET(state) {
+      state.pending;
       return (id) => state.pending[id];
     },
   },

@@ -26,6 +26,12 @@ registerDefaultProperties((name, component) => {
   store.commit('SIMPUT_ADD_PROPERTY_MAPPING', { name, component });
 });
 
+// Delay loading supported workflow
+setTimeout(() => store.dispatch('WF_LOAD_ALL'), 100);
+
+// Delay loading available tools
+setTimeout(() => store.dispatch('TOOLS_LOAD_ALL'), 100);
+
 new Vue({
   provide: GirderProvider,
   router,

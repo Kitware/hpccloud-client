@@ -1,0 +1,38 @@
+<v-form v-model="valid" ref="form">
+  <v-container>
+    <v-layout wrap>
+      <v-flex xs12>
+        <v-text-field
+          v-model="name"
+          label="Name"
+          required
+          :rules="rules.name"
+        />
+      </v-flex>
+
+      <v-flex xs12>
+        <v-textarea
+          label="Description"
+          v-model="description"
+        />
+      </v-flex>
+      <v-flex
+        xs12
+        v-for="fileKey in fileKeys"
+        :key="fileKey"
+      >
+        <hpc-file-upload
+          :name="fileKey"
+          :label="workflow.inputFiles[fileKey].label"
+          :accept="workflow.inputFiles[fileKey].accept"
+          @updateAttachement="addAttachement"
+        />
+      </v-flex>
+    </v-layout>
+    <v-layout>
+      <v-btn @click="createSimulation">Create</v-btn>
+      <v-btn @click="goBackHome">Cancel</v-btn>
+      <v-spacer />
+    </v-layout>
+  </v-container>
+</v-form>

@@ -8,6 +8,8 @@ function filterQuery(query = {}, ...keys) {
   return out;
 }
 
+const CHUNK_SIZE = 10 * 1024 * 1024;
+
 export default {
   state: {
     apiRoot: '',
@@ -54,13 +56,12 @@ export default {
       state.eventSource = null;
     },
     HTTP_EVENT({ dispatch }, message) {
-      const {
-        type,
-        data: { _id: id, status, log },
-      } = message;
-      if (status) {
+      const { type, data } = message;
+      if (data && data.status) {
+        const { _id: id, status } = data;
         dispatch('EVENTS_STATUS', { id, type, status });
-      } else if (log) {
+      } else if (data && data.log) {
+        const { _id: id, log } = data;
         dispatch('EVENTS_LOG', { id, type, log });
       } else if (type === 'progress') {
         // progress
@@ -77,6 +78,69 @@ export default {
       dispatch('HTTP_DISCONNECT_EVENTS');
       state.girderClient.logout();
     },
+    // --- FOLDERS ------------------------------------------------------------
+    async HTTP_FOLDERS_CREATE({ state }, folder) {
+      return await state.girderClient.post('folder', null, { params: folder });
+    },
+    // --- ITEMS -----------------------------------------------------------
+    async HTTP_ITEMS_CREATE({ state }, item) {
+      return await state.girderClient.post('item', null, { params: item });
+    },
+    // --- FILES -----------------------------------------------------------
+    async HTTP_FILES_CHUNK({ state }, { uploadId, offset, blob }) {
+      return await state.girderClient.post('file/chunk', blob, {
+        params: {
+          uploadId,
+          offset,
+        },
+        headers: { 'Content-Type': 'application/octet-stream' },
+      });
+    },
+    async HTTP_FILES_UPLOAD({ state, dispatch }, fileEntry) {
+      const { parentType, parentId, name, size, file } = fileEntry;
+      const fileId = `${file.name}_${file.lastModified}`;
+      const { data: upload } = await state.girderClient.post(`file`, null, {
+        params: {
+          parentType,
+          parentId,
+          name,
+          size,
+        },
+      });
+      const uploadId = upload._id;
+
+      async function uploadNextChunk(offset) {
+        dispatch('HTTP_EVENT', {
+          type: 'progress',
+          current: offset,
+          total: size,
+          id: fileId,
+        });
+        if (offset + CHUNK_SIZE >= size) {
+          const blob = file.slice(offset);
+          const { data: finish } = await dispatch('HTTP_FILES_CHUNK', {
+            uploadId,
+            offset,
+            blob,
+          });
+          dispatch('HTTP_EVENT', {
+            type: 'progress',
+            current: size,
+            total: size,
+            id: fileId,
+          });
+          return finish;
+        } else {
+          const blob = file.slice(offset, offset + CHUNK_SIZE);
+          await dispatch('HTTP_FILES_CHUNK', { uploadId, offset, blob });
+          return uploadNextChunk(offset + CHUNK_SIZE);
+        }
+      }
+
+      const data = await uploadNextChunk(0);
+      console.log('file', data);
+      return { data };
+    },
     // --- PROJECTS -----------------------------------------------------------
     async HTTP_PROJECTS_LIST({ state }) {
       return await state.girderClient.get('projects');
@@ -88,7 +152,18 @@ export default {
       return await state.girderClient.get(`projects/${id}`);
     },
     async HTTP_PROJECTS_UPDATE({ state }, project) {
-      return await state.girderClient.patch(`projects/${project._id}`, project);
+      const cleaned = Object.assign({}, project);
+      [
+        '_id',
+        'access',
+        'created',
+        'folderId',
+        'steps',
+        'type',
+        'updated',
+        'userId',
+      ].forEach((key) => delete cleaned[key]);
+      return await state.girderClient.patch(`projects/${project._id}`, cleaned);
     },
     async HTTP_PROJECTS_DELETE({ state }, id) {
       return await state.girderClient.delete(`projects/${id}`);
@@ -128,17 +203,30 @@ export default {
       return await state.girderClient.get(`projects/${id}/simulations`);
     },
     // --- SIMULATIONS --------------------------------------------------------
-    async HTTP_SIMULATIONS_CREATE({ state }, { id, simulation }) {
+    async HTTP_SIMULATIONS_CREATE({ state }, simulation) {
       return await state.girderClient.post(
-        `/projects/${id}/simulations`,
+        `/projects/${simulation.projectId}/simulations`,
         simulation
       );
     },
     async HTTP_SIMULATIONS_GET_BY_ID({ state }, id) {
       return await state.girderClient.get(`simulations/${id}`);
     },
-    async HTTP_SIMULATIONS_UPDATE({ state }, { id, content }) {
-      return await state.girderClient.patch(`simulations/${id}`, content);
+    async HTTP_SIMULATIONS_UPDATE({ state }, simulation) {
+      const cleaned = Object.assign({}, simulation);
+      [
+        '_id',
+        'access',
+        'created',
+        'folderId',
+        'projectId',
+        'updated',
+        'userId',
+      ].forEach((key) => delete cleaned[key]);
+      return await state.girderClient.patch(
+        `simulations/${simulation._id || simulation.id}`,
+        cleaned
+      );
     },
     async HTTP_SIMULATIONS_DELETE({ state }, id) {
       return await state.girderClient.delete(`simulations/${id}`);

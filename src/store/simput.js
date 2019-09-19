@@ -15,6 +15,7 @@ export default {
   },
   getters: {
     SIMPUT_COMPONENT_GET(state) {
+      state.mapping;
       return (name) => state.mapping[name.toLowerCase()];
     },
     SIMPUT_MODEL(state) {
@@ -32,7 +33,6 @@ export default {
       state.loaded[type] = status;
     },
     SIMPUT_REGISTER_TEMPLATE(state, { type, urls }) {
-      console.log('register urls for', type);
       state.types[type] = { urls };
     },
   },

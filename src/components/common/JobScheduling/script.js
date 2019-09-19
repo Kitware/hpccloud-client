@@ -5,6 +5,7 @@ import runtimes from 'hpccloud-client/src/runtimes';
 const RUNTIME_KEYS = Object.keys(runtimes);
 const NoFilter = () => true;
 const NoPayload = () => ({ payload: 'invalid as no function were provided' });
+const NoMetadata = () => ({});
 
 export default {
   name: 'hpcJobScheduling',
@@ -16,6 +17,10 @@ export default {
     getPayload: {
       type: Function,
       default: NoPayload,
+    },
+    getMetadata: {
+      type: Function,
+      default: NoMetadata,
     },
     nextView: {
       type: String,
@@ -62,6 +67,7 @@ export default {
           step,
           data: Object.assign({}, simulation.steps[step], {
             view: this.nextView,
+            metadata: this.getMetadata({ simulation, step }),
           }),
         },
       });

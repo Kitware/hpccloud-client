@@ -17,6 +17,7 @@ export default {
           'completed',
           'terminating',
           'terminated',
+          'error',
         ];
       },
     },

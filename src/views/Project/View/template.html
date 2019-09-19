@@ -12,6 +12,8 @@
       {{ getRelativeTimeLabel(props.item.modified) }}
     </td>
     <td class="text-xs-center">{{ props.item.summary }}</td>
-    <td class="text-xs-right">{{ props.item.actions }}</td>
+    <td class="text-xs-right">
+      <v-btn icon @click="goTo(props.item.id, 'edit')"><v-icon>{{ $vuetify.icons.edit }}</v-icon></v-btn>
+    </td>
   </template>
 </v-data-table>

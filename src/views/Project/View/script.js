@@ -3,8 +3,11 @@ import { mapGetters } from 'vuex';
 import { getRelativeTimeLabel } from 'hpccloud-client/src/utils/DateHelper';
 import { anonymousRedirect } from 'hpccloud-client/src/utils/RedirectHelper';
 
-function simulationToTable(project) {
-  const { _id, name, updated, description } = project;
+function simulationToTable(simulation) {
+  if (!simulation) {
+    return null;
+  }
+  const { _id, name, updated, description } = simulation;
   return {
     id: _id,
     name,
@@ -42,6 +45,9 @@ export default anonymousRedirect(
       view(e) {
         const { id } = e.target.dataset;
         this.$router.push(`/simulation/view/${id}`);
+      },
+      goTo(id, view) {
+        this.$router.push(`/simulation/${view}/${id}`);
       },
     },
     data() {

@@ -34,7 +34,7 @@
                       <v-icon class="mr-4" v-if="(job.log || []).length > 0">
                         {{ $vuetify.icons.hpccloud.log }}
                       </v-icon>
-                      {{ job.status }}
+                      <span :class="$style.status">{{ job.status }}</span>
                     </v-layout>
                   </v-list-tile-action>
                 </v-list-tile>
@@ -97,7 +97,7 @@
                       <v-icon class="mr-4" v-if="(task.log || []).length > 0">
                         {{ $vuetify.icons.hpccloud.log }}
                       </v-icon>
-                      {{ task.status }}
+                      <span :class="$style.status">{{ task.status }}</span>
                     </v-layout>
                   </v-list-tile-action>
                 </v-list-tile>

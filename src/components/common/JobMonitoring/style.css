@@ -5,3 +5,8 @@
 .denseExpansionPanel :global(.v-expansion-panel__header) {
   padding: 0;
 }
+
+.status {
+    min-width: 70px;
+    text-align: center;
+}

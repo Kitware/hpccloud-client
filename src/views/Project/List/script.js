@@ -21,6 +21,7 @@ export default anonymousRedirect(
     computed: {
       ...mapGetters({
         projects: 'PROJECTS',
+        icons: 'WF_MTIME',
       }),
       items() {
         return this.projects.map(projectToTable);
@@ -32,9 +33,18 @@ export default anonymousRedirect(
         const { id } = e.target.dataset;
         this.$router.push(`/project/view/${id}`);
       },
+      goTo(id, view) {
+        this.$router.push(`/project/${view}/${id}`);
+      },
+    },
+    watch: {
+      icons() {
+        this.modified++;
+      },
     },
     data() {
       return {
+        modified: 0,
         tableOptions: {
           descending: true,
           rowsPerPage: 25,
